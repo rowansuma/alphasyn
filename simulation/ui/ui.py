@@ -12,17 +12,20 @@ class UI:
         self.actor = self.plotter.add_mesh(self.cloud, render_points_as_spheres=True, point_size=20)
         self.draw_bounds()
 
-        self.plotter.view_xy()
-        self.plotter.reset_camera(bounds=(-10, 110, -10, 10, -10, 10))
+        self.plotter.camera_position = [
+            (0, 0, 3000),  # camera pos
+            (0, 0, 0),     # focal point
+            (0, 1, 0)      # view-up dir
+        ]
 
         self.plotter.show(interactive_update=True)
 
     def draw_bounds(self):
         box = pv.Cube(
             center=(0, 0, 0),
-            x_length=1000,
-            y_length=1000,
-            z_length=1000
+            x_length=self.sim.SPACE_SIZE,
+            y_length=self.sim.SPACE_SIZE,
+            z_length=self.sim.SPACE_SIZE
         )
 
         self.plotter.add_mesh(

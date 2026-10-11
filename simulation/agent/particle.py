@@ -1,7 +1,9 @@
 import numpy as np
 
 class ParticleHandler:
-    def __init__(self, MAX_COUNT):
+    def __init__(self, sim, MAX_COUNT):
+        self.sim = sim
+
         self.MAX_COUNT = MAX_COUNT
 
         self.pos = np.zeros((self.MAX_COUNT, 3))

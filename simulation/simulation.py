@@ -3,7 +3,9 @@ from .agent import SeedHandler
 
 class Simulation:
     def __init__(self):
-        self.seed = SeedHandler(1000)
+        self.SPACE_SIZE = 1000
+
+        self.seed = SeedHandler(self, 1000)
 
     def tick(self):
         self.seed.tick()
