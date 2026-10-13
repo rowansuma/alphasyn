@@ -8,8 +8,9 @@ class UI:
         self.sim = sim
         self.plotter = pv.Plotter()
         self.cloud = pv.PolyData(self.sim.getSeedPos())
+        self.cloud["length"] = self.sim.getSeedLength()
 
-        self.actor = self.plotter.add_mesh(self.cloud, render_points_as_spheres=True, point_size=20)
+        self.actor = self.plotter.add_mesh(self.cloud, scalars="length", cmap="viridis", clim=[0, 1000], render_points_as_spheres=True, point_size=10)
         self.draw_bounds()
 
         self.plotter.camera_position = [
@@ -40,4 +41,5 @@ class UI:
 
     def update(self):
         self.cloud.points = self.sim.getSeedPos()
+        self.cloud["length"] = self.sim.getSeedLength()
         self.plotter.update()  # re-renders and processes window events
