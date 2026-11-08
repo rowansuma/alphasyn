@@ -18,6 +18,8 @@ sim.seed.vel = vel
 sim.seed.acc = acc
 sim.seed.length = length
 sim.seed.count = NUM_SEEDS
+sim.monomer.set((50, 50, 50), 100000000)
+
 
 ui = UI(sim)
 
