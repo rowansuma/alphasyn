@@ -1,10 +1,11 @@
 import numpy as np
 
 class ParticleHandler:
-    def __init__(self, sim, MAX_COUNT):
+    def __init__(self, sim,):
         self.sim = sim
-
-        self.MAX_COUNT = MAX_COUNT
+        # config
+        cfg = self.sim.config["seed"]
+        self.MAX_COUNT = cfg["max_count"]
 
         self.pos = np.zeros((self.MAX_COUNT, 3))
         self.count = 0

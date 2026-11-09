@@ -6,27 +6,29 @@ from simulation import Simulation
 class UI:
     def __init__(self, sim: Simulation):
         self.sim = sim
+        # config
+        cfg = self.sim.config["ui"]
+        self.SHOW_SEEDS = cfg["show_seeds"]
+        self.SHOW_MONOMER = cfg["show_monomer"]
+        self.MONOMER_DISPLAY_THRESHOLD = cfg["monomer_display_threshold"]
+        
         self.plotter = pv.Plotter()
-
-        self.SHOW_SEEDS = True
-        self.SHOW_MONOMER = False
 
         self.cloud = pv.PolyData(self.sim.getSeedPos())
         self.cloud["length"] = self.sim.getSeedLength()
 
         grid = self.sim.getConcentrationGrid()
-        self.MONOMER_DISPLAY_THRESHOLD = 5
-        self.cube_cloud = pv.PolyData(np.argwhere(grid > self.MONOMER_DISPLAY_THRESHOLD).astype(float)*self.sim.monomer.dxyz)
+        self.cube_cloud = pv.PolyData(np.argwhere(grid > self.MONOMER_DISPLAY_THRESHOLD).astype(float)*self.sim.monomer.dx)
         self.cube_cloud["concentration"] = grid[grid > self.MONOMER_DISPLAY_THRESHOLD]
 
         if self.SHOW_SEEDS:
-            self.plotter.add_mesh(self.cloud, scalars="length", cmap="viridis", clim=[0, 1000], render_points_as_spheres=True, point_size=10)
+            self.plotter.add_mesh(self.cloud, scalars="length", cmap="viridis", clim=cfg["seed_display_bounds"], render_points_as_spheres=True, point_size=cfg["seed_point_size"])
 
         if self.SHOW_MONOMER:
             glyphs = self.cube_cloud.glyph(
-                geom=pv.Cube(x_length=self.sim.monomer.dxyz,
-                             y_length=self.sim.monomer.dxyz,
-                             z_length=self.sim.monomer.dxyz),
+                geom=pv.Cube(x_length=self.sim.monomer.dx,
+                             y_length=self.sim.monomer.dx,
+                             z_length=self.sim.monomer.dx),
                 scale=False,
             )
 
@@ -34,8 +36,8 @@ class UI:
                 glyphs,
                 scalars="concentration",
                 cmap="viridis",
-                clim=[0, 100],
-                opacity=0.85,
+                clim=cfg["monomer_display_bounds"],
+                opacity=cfg["monomer_opacity"],
                 show_scalar_bar=True
         )
 
@@ -77,14 +79,14 @@ class UI:
 
         if self.SHOW_MONOMER:
             grid = self.sim.getConcentrationGrid()
-            self.cube_cloud.points = np.argwhere(grid > self.MONOMER_DISPLAY_THRESHOLD).astype(float)*self.sim.monomer.dxyz-self.sim.SPACE_SIZE/2
+            self.cube_cloud.points = np.argwhere(grid > self.MONOMER_DISPLAY_THRESHOLD).astype(float)*self.sim.monomer.dx-self.sim.SPACE_SIZE/2
             self.cube_cloud["concentration"] = grid[grid > self.MONOMER_DISPLAY_THRESHOLD]
 
             glyphs = self.cube_cloud.glyph(
                 geom=pv.Cube(
-                    x_length=self.sim.monomer.dxyz,
-                    y_length=self.sim.monomer.dxyz,
-                    z_length=self.sim.monomer.dxyz,
+                    x_length=self.sim.monomer.dx,
+                    y_length=self.sim.monomer.dx,
+                    z_length=self.sim.monomer.dx,
                 ),
                 scale=False,
             )

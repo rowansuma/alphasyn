@@ -4,8 +4,8 @@ from simulation.agent import ParticleHandler
 
 
 class MovingParticleHandler(ParticleHandler):
-    def __init__(self, sim, MAX_COUNT):
-        super().__init__(sim, MAX_COUNT)
+    def __init__(self, sim):
+        super().__init__(sim)
 
         self.vel = np.zeros((self.MAX_COUNT, 3))
         self.acc = np.zeros((self.MAX_COUNT, 3))

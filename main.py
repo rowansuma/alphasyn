@@ -1,25 +1,14 @@
 from simulation import Simulation
 from simulation.ui import UI
-import numpy as np
+import tomllib
+from pathlib import Path
 
-sim = Simulation()
+with open(Path("config.toml"), "rb") as f:
+    config = tomllib.load(f)
 
-rng = np.random.default_rng()
-
-NUM_SEEDS = 10000
-
-pos = rng.uniform(-500, 500, (NUM_SEEDS, 3))
-vel = rng.uniform(-1, 1, (NUM_SEEDS, 3))
-acc = np.zeros((NUM_SEEDS, 3))
-length = rng.normal(loc=400.0, scale=150.0, size=NUM_SEEDS)
-
-sim.seed.pos = pos
-sim.seed.vel = vel
-sim.seed.acc = acc
-sim.seed.length = length
-sim.seed.count = NUM_SEEDS
+sim = Simulation(config)
+sim.populateSeeds()
 sim.monomer.set((50, 50, 50), 100000000)
-
 
 ui = UI(sim)
 

@@ -4,10 +4,11 @@ from simulation.agent import MovingParticleHandler
 
 
 class SeedHandler(MovingParticleHandler):
-    def __init__(self, sim, MAX_COUNT):
-        super().__init__(sim, MAX_COUNT)
-
-        self.R_ELON = 0.5
+    def __init__(self, sim):
+        super().__init__(sim)
+        # config
+        cfg = self.sim.config["seed"]
+        self.R_ELON = cfg["r_elongation"]
 
         self.length = np.zeros(self.MAX_COUNT)
 
