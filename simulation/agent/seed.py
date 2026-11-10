@@ -16,6 +16,20 @@ class SeedHandler(MovingParticleHandler):
         super().add(pos, vel, acc)
         self.length[self.count-1] = length
 
+    def elongate(self): # TODO: Multiple seeds can occupy same cell and make c go negative - fix
+        m = self.sim.monomer
+        grid_cell = self.grid_cell().astype(int)
+        mask = m.get_c(grid_cell) > self.R_ELON
+
+        self.length[mask] += self.R_ELON
+
+        m.add_c(grid_cell[mask], -self.R_ELON)
+
+    def grid_cell(self):
+        cfg = self.sim.config["monomer"]
+        cells = ((self.pos + self.sim.SPACE_SIZE/2)//cfg["dx"]).astype(int)
+        return np.clip(cells, 0, self.sim.monomer.size[0] - 1)
+
     def tick(self):
         super().tick()
-        self.length += self.R_ELON
+        self.elongate()

@@ -8,8 +8,8 @@ with open(Path("config.toml"), "rb") as f:
 
 sim = Simulation(config)
 sim.populateSeeds()
-sim.monomer.set((50, 50, 50), 100000000)
-
+# sim.monomer.set((50, 50, 50), 10000000)
+sim.monomer.fill_uniform(50)
 ui = UI(sim)
 
 while not ui.closed:

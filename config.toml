@@ -5,7 +5,7 @@ space_size = 1000
 dt = 1
 
 [init]
-num_seeds = 10
+num_seeds = 10000
 length_dist_mean = 400
 length_dist_stdev = 150
 
@@ -15,12 +15,12 @@ diffusion_constant = 10
 
 [seed]
 max_count = 10000
-r_elongation = 0.5
+r_elongation = 5
 r_fragmentation = 1
 
 [ui]
 show_seeds = true
-seed_display_bounds = [0, 1000]
+seed_display_bounds = [0, 10000]
 seed_point_size = 10
 
 show_monomer = false
