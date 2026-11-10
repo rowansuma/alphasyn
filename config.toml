@@ -27,3 +27,6 @@ show_monomer = false
 monomer_display_bounds = [0, 100]
 monomer_opacity = 0.85
 monomer_display_threshold = 5
+
+[metrics]
+out_path = "data.csv"

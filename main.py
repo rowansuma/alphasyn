@@ -15,3 +15,5 @@ ui = UI(sim)
 while not ui.closed:
     sim.tick()
     ui.update()
+
+sim.close()

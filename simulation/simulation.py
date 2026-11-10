@@ -1,6 +1,7 @@
 import numpy as np
 from .agent import SeedHandler
 from .field import MonomerHandler
+from .metrics import MetricHandler
 
 class Simulation:
     def __init__(self, config):
@@ -11,10 +12,15 @@ class Simulation:
 
         self.seed = SeedHandler(self)
         self.monomer = MonomerHandler(self)
+        self.metrics = MetricHandler(self, config["metrics"]["out_path"])
+
+        self.step = 0
 
     def tick(self):
         self.seed.tick()
         self.monomer.tick()
+        self.metrics.save_metrics()
+        self.step += 1
 
     def populateSeeds(self):
         rng = np.random.default_rng()
@@ -39,3 +45,5 @@ class Simulation:
     def getConcentrationGrid(self):
         return self.monomer.c
 
+    def close(self):
+        self.metrics.close()
